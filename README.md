@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Workflow Testing App
 
-## Getting Started
+A Next.js application demonstrating workflows with webhooks and server actions. The app starts a workflow that iterates over a webhook, allowing terms to be added to a list via server actions.
 
-First, run the development server:
+## Unexpected Behavior During Local Development
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+This app contains examples of unexpected behavior with workflows during local development:
+
+### 1. Workflow Stuck in Pending State on First Start
+When the dev server is started for the first time (before the `.well-known` directory is created), the workflow starts but stays in a pending state indefinitely. A fetch error (`ECONNREFUSED`) is thrown in the logs:
+```
+[embedded world] Queue operation failed: TypeError: fetch failed
+  [cause]: AggregateError: code: 'ECONNREFUSED'
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Client Requests Hang with `resumeWebhook`
+When attempting to resume the workflow from a server action using `resumeWebhook`, the workflow appears to respond according to the logs, but the client never receives a response. The request remains pending until timeing out after 5 minutes.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Workflow Stops Responding After Code Changes
+When making changes to the workflow while the dev server is running, it stops responding to requests, leaving the client hanging until it times out at 5 minutes (also observed with streams).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Usage
 
-## Learn More
+- `npm run dev` - Start the development server
+- `npm run dev:clean` - Clean build artifacts and start fresh (useful for reproducing the first issue)
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
