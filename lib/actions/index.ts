@@ -1,6 +1,6 @@
 "use server";
 
-import { updateTag } from "next/cache";
+// import { updateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { resumeWebhook, start } from "workflow/api";
 import { termListWorkflow } from "@/workflows/term-list";
@@ -87,7 +87,7 @@ export async function startTermListWorkflow() {
     // Give it a second to start before updating the cache
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    updateTag("workflow-status");
+    // updateTag("workflow-status");
 
     return run.runId;
   } catch (_) {
@@ -112,7 +112,7 @@ export async function stopWorkflow() {
     // Give it a second to start before updating the cache
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    updateTag("workflow-status");
+    // updateTag("workflow-status");
   } catch (error) {
     if (error instanceof Error) {
       throw error;

@@ -1,4 +1,4 @@
-import { cacheLife, cacheTag } from "next/cache";
+// import { cacheLife, cacheTag } from "next/cache";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
 import { getRun } from "workflow/api";
@@ -30,9 +30,9 @@ export default async function Home() {
 }
 
 async function getWorkflowStatus() {
-  "use cache: private";
-  cacheLife("seconds");
-  cacheTag("workflow-status");
+  // "use cache: private";
+  // cacheLife("seconds");
+  // cacheTag("workflow-status");
 
   const cookieStore = await cookies();
   const runId = cookieStore.get("workflow_run_id")?.value;
