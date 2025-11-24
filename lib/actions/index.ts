@@ -43,9 +43,12 @@ export async function triggerWebhookWithApiRoute(term: string) {
     throw new Error("Token not found");
   }
 
+  const host = process.env.VERCEL_URL || "localhost:3000";
+  const protocol = process.env.VERCEL_URL ? "https" : "http";
+
   try {
     const { terms } = await fetch(
-      `http://localhost:3000/.well-known/workflow/v1/webhook/termlist-workflow:${token}`,
+      `${protocol}://${host}/.well-known/workflow/v1/webhook/termlist-workflow:${token}`,
       {
         method: "POST",
         body: JSON.stringify({ term }),
