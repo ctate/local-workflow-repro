@@ -1,8 +1,8 @@
 "use client";
 
-import { updateTag } from "next/cache";
 import { use, useState, useTransition } from "react";
 import {
+  startTermListWorkflow,
   stopWorkflow,
   triggerWebhookWithApiRoute,
   triggerWebhookWithResume,
@@ -23,7 +23,7 @@ export function Dashboard({
 
   async function startWorkflow() {
     startStartTransition(async () => {
-      await fetch("/api/start", { method: "POST" });
+      await startTermListWorkflow();
     });
   }
 
